@@ -18,8 +18,35 @@ objPos::objPos(int xPos, int yPos, char sym)
 
 // Respect the rule of six / minimum four
 // [TODO] Implement the missing special member functions to meet the minimum four rule
+objPos::~objPos()
+{
+delete Pos;
+}
+objPos::objPos(const objPos &p)
+{
+  /*
+  rowsNum = m.rowsNum;
+	colsNum = m.colsNum;
+	matrixData = new int*[rowsNum];
+	for(int i = 0; i<rowsNum;i++){
+		matrixData[i] = new int[colsNum];
+		for(int j = 0; j<colsNum;j++){
+			matrixData[i][j] = m.matrixData[i][j];
+		}
+	}
+  */
+ pos->x = p.pos->x;
+ pos->y = p.pos->y;
+ symbol = p.symbol;
+ pos = new *Pos;
 
-
+}
+objPos& objPos::operator=(const objPos &p)
+{
+this->pos->x = p.pos->x;
+ this->pos->y = p.pos->y;
+ this->symbol = p.symbol;
+}
 
 
 void objPos::setObjPos(objPos o)
