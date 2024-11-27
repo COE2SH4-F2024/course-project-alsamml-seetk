@@ -7,11 +7,9 @@
 using namespace std;
 
 #define DELAY_CONST 100000
-GameMechs* myGameMechs;
 
-bool exitFlag;
-char input;
 Player* myPlayer; 
+GameMechs* myGameMechs;
 
 
 void Initialize(void);
@@ -46,9 +44,8 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
-    myPlayer = new Player(nullptr);
-    input = 0;
+    myGameMechs = new GameMechs(26, 13);
+    myPlayer = new Player(myGameMechs);
 
 
 
@@ -56,9 +53,7 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   if (MacUILib_hasChar()){
-        input = MacUILib_getChar();
-    }
+   myGameMechs->getInput();
 
 }
 
@@ -67,6 +62,12 @@ void RunLogic(void)
     //myPlayer->mainGameMechsRef->setInput(input);
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    if(myPlayer->checkSelfCollision()) { 
+        myGameMechs->setLoseFlag();
+        myGameMechs->setExitTrue();
+        return;
+    }
+    myGameMechs->clearInput();
 }
 
 void DrawScreen(void)
@@ -111,11 +112,13 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    
     MacUILib_clearScreen();    
- delete myPlayer;
     MacUILib_uninit();
 
+    //end game messages
+    myGameMechs->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGameMechs->getScore())) : (MacUILib_printf("Game Exited\n"));
+    
     //delete allocated heap memory
     delete myGameMechs;
+    delete myPlayer;
 }
