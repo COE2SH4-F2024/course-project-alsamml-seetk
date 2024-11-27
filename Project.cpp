@@ -1,9 +1,11 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
 
 using namespace std;
 
+GameMechs* myGameMechs;
 
 
 //define and implement player class at top of project.cpp: 
@@ -157,7 +159,7 @@ void Player::movePlayer()
 
 
 
-bool exitFlag;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -173,7 +175,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(myGameMechs->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -191,12 +193,13 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
+    myGameMechs = new GameMechs(26,13);
+
 }
 
 void GetInput(void)
 {
-   
+   myGameMechs->getInput();
 }
 
 void RunLogic(void)
@@ -217,7 +220,13 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();  
+
+    //end game messages
+    myGameMechs->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGameMechs->getScore())) : (MacUILib_printf("Game Exited\n"));  
 
     MacUILib_uninit();
+
+    //delete allocated heap memory
+    delete myGameMechs;
 }
