@@ -9,7 +9,7 @@ using namespace std;
 #define DELAY_CONST 100000
 
 Player* myPlayer; 
-GameMechs* myGameMechs;
+GameMechs* myGM;
 
 
 void Initialize(void);
@@ -26,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while(myGameMechs->getExitFlagStatus() == false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -44,8 +44,8 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGameMechs = new GameMechs();
-    myPlayer = new Player(myGameMechs);
+    myGM = new GameMechs();
+    myPlayer = new Player(myGM);
 
 
 
@@ -53,7 +53,7 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   myGameMechs->getInput();
+   myGM->collectAsyncInput();
 
 }
 
@@ -68,7 +68,7 @@ void RunLogic(void)
         myGameMechs->setExitTrue();
         return;
     }*/
-    myGameMechs->clearInput();
+    myGM->clearInput();
 }
 
 void DrawScreen(void)
@@ -101,8 +101,8 @@ int x = 0, y = 0;
    
    MacUILib_printf("================DEBUGGING===============\n");
    MacUILib_printf("Player[x,y]= [%d,%d], %c\n", playerPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
-   MacUILib_printf("current score: %d\n", myGameMechs -> getScore());
-  MacUILib_printf("lose flg: %d ", myGameMechs -> getLoseFlagStatus());
+   MacUILib_printf("current score: %d\n", myGM -> getScore());
+  MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
 
 }
 
@@ -118,9 +118,9 @@ void CleanUp(void)
     MacUILib_uninit();
 
     //end game messages
-    myGameMechs->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGameMechs->getScore())) : (MacUILib_printf("Game Exited\n"));
+    myGM->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGM->getScore())) : (MacUILib_printf("Game Exited\n"));
     
     //delete allocated heap memory
-    delete myGameMechs;
+    delete myGM;
     delete myPlayer;
 }
