@@ -85,12 +85,7 @@ int x = 0, y = 0;
         else if(x == playerPos.pos->x && y==playerPos.pos->y){
             MacUILib_printf("%c",playerPos.symbol);
         }
-        else if(y==4 && x ==3){
-            MacUILib_printf("*");
-        }
-        else if( x == 9 && y==6){
-            MacUILib_printf("!");
-        }
+        
         else{
             MacUILib_printf(" ");
         }
