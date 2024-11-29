@@ -44,7 +44,7 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGameMechs = new GameMechs(26, 13);
+    myGameMechs = new GameMechs();
     myPlayer = new Player(myGameMechs);
 
 
@@ -62,11 +62,12 @@ void RunLogic(void)
     //myPlayer->mainGameMechsRef->setInput(input);
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    /*
     if(myPlayer->checkSelfCollision()) { 
         myGameMechs->setLoseFlag();
         myGameMechs->setExitTrue();
         return;
-    }
+    }*/
     myGameMechs->clearInput();
 }
 
@@ -98,9 +99,10 @@ int x = 0, y = 0;
     MacUILib_printf("\n");
    }
    
-   MacUILib_printf("Player[x,y]= [%d,%d], %c", playerPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
-
-
+   MacUILib_printf("================DEBUGGING===============\n");
+   MacUILib_printf("Player[x,y]= [%d,%d], %c\n", playerPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
+   MacUILib_printf("current score: %d\n", myGameMechs -> getScore());
+  MacUILib_printf("lose flg: %d ", myGameMechs -> getLoseFlagStatus());
 
 }
 
@@ -112,7 +114,7 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen(); 
     MacUILib_uninit();
 
     //end game messages
