@@ -66,7 +66,7 @@ void GetInput(void)
 
     //MacUILib_printf("Food regenerated at new position\n");
 
-    myGM->clearInput();
+    //myGM->clearInput();
 
    
 
