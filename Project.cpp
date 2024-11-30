@@ -52,7 +52,7 @@ void Initialize(void)
 
     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
-
+    
 
 }
 
@@ -121,13 +121,13 @@ void DrawScreen(void)
 
             //draw border
             if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
-                MacUILib_printf("#");
+                MacUILib_printf("%c", "#");
             }
             else if(j == foodPos.pos->x && i == foodPos.pos->y) { 
                 MacUILib_printf("%c",foodPos.symbol);
             }
             else{
-                MacUILib_printf(" ");
+                MacUILib_printf("%c", ' ');
             }
             
         }
@@ -138,8 +138,6 @@ void DrawScreen(void)
    //MacUILib_printf("Player[x,y]= [%d,%d], %c\n", newHeadPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
    MacUILib_printf("current score: %d\n", myGM -> getScore());
    MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
-   objPos headPos = playerPos -> getHeadElement();
-   MacUILib_printf("player head position : [%d, %d]\n", headPos.pos->x, headPos.pos->y);
 
 }
 
