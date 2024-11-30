@@ -20,7 +20,7 @@ class Food
         Food();
         ~Food();
 
-        void generateFood(GameMechs* gameMechsPtr, objPos blockOff);
+        void generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff);
         objPos getFoodPos() const;
 };
 

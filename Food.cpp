@@ -19,7 +19,7 @@ Food::~Food()
 }
 
 
-void Food::generateFood(GameMechs* gameMechsPtr, objPos blockOff)
+void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
 {
     //random food generation algorithm
     //blockoff the player position only 
@@ -28,11 +28,22 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPos blockOff)
     int boardWidth = gameMechsPtr->getBoardSizeX() - 2;
     int boardHeight = gameMechsPtr->getBoardSizeY() - 2;
     int xFood, yFood;
+    int flag = 0;
 
     do { 
+        flag = 1;
         xFood = rand() % boardWidth + 1;
         yFood = rand() % boardHeight + 1;
-    } while (xFood == blockOff.pos->x && yFood == blockOff.pos->y);
+
+        //check if generated pos matches any blocked positions 
+        for(int i = 0; i < blockOff->getSize(); i++) { 
+            objPos currentBlock = blockOff->getElement(i);
+            if(xFood == currentBlock.pos->x && yFood == currentBlock.pos->y) { 
+                flag = 0;
+                break;
+            }
+        }
+    } while (flag = 0);
 
     
     foodPos.setObjPos(xFood, yFood,'o');

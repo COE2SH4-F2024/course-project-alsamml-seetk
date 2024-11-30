@@ -50,7 +50,7 @@ void Initialize(void)
     myPlayer = new Player(myGM);
     myFood = new Food();
 
-    objPos playerPosition = myPlayer->getPlayerPos();
+    objPosArrayList* playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
 
 
@@ -62,7 +62,7 @@ void GetInput(void)
     
     //debug key
     if(myGM->getInput() == 'r') {
-        objPos playerPosition = myPlayer->getPlayerPos();
+        objPosArrayList* playerPosition = myPlayer->getPlayerPos();
         myFood->generateFood(myGM, playerPosition);
 
     MacUILib_printf("Food regenerated at new position\n");
@@ -101,6 +101,7 @@ void DrawScreen(void)
 
     for (int i = 0; i < boardY; i++){
         for(int j = 0; j < boardX; j++){
+            int flag = 0; 
 
             //now iterate through playerPos array list to print all segments out 
             for(int k = 0; k < playerSize; k++) { 
@@ -109,21 +110,20 @@ void DrawScreen(void)
                 //check if current segment x, y pos matches j, i coordinate 
                 if( i == thisSeg.pos->y && j == thisSeg.pos->x){
                     //if yes, print symbol 
-                    MacUILib_printf("%c",foodPos.symbol);
-                }
-            
-                //WATCH OUT - skip if-else block below if we have printed something 
+                    MacUILib_printf("%c",thisSeg.symbol);
+                    flag = 1;
+                } 
             }
 
+            //WATCH OUT - skip if-else block below if we have printed something
             //at end of for loop do something to determine whether to continue if-else or move onto next iteration of i-j
-
+            if(flag == 1) continue; 
 
             //draw border
             if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
                 MacUILib_printf("%c", "#");
             }
-            }
-            else if(j == foodPos.pos->x && i == foodPos.pos->i) { 
+            else if(j == foodPos.pos->x && i == foodPos.pos->y) { 
                 MacUILib_printf("%c",foodPos.symbol);
             }
             else{
@@ -135,7 +135,7 @@ void DrawScreen(void)
    }
    
    MacUILib_printf("================DEBUGGING===============\n");
-   MacUILib_printf("Player[x,y]= [%d,%d], %c\n", playerPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
+   //MacUILib_printf("Player[x,y]= [%d,%d], %c\n", newHeadPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
    MacUILib_printf("current score: %d\n", myGM -> getScore());
    MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
 
