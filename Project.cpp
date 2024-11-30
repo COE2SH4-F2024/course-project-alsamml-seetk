@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ using namespace std;
 
 Player* myPlayer; 
 GameMechs* myGM;
+Food* myFood;
 
 
 void Initialize(void);
@@ -46,6 +48,7 @@ void Initialize(void)
 
     myGM = new GameMechs();
     myPlayer = new Player(myGM);
+    myFood = new Food();
 
 
 
@@ -76,6 +79,8 @@ void DrawScreen(void)
     MacUILib_clearScreen();  
 
 objPos playerPos = myPlayer->getPlayerPos();
+objPos foodPos = myFood->getFoodPos(); //already defined in food class??
+
 int x = 0, y = 0;
    for (y=0; y<=9;y++){
     for(x=0;x<=19;x++){
@@ -85,7 +90,9 @@ int x = 0, y = 0;
         else if(x == playerPos.pos->x && y==playerPos.pos->y){
             MacUILib_printf("%c",playerPos.symbol);
         }
-        
+        else if(x == foodPos.pos->x && y == foodPos.pos->y) { 
+            MacUILib_printf("%c",foodPos.symbol);
+        }
         else{
             MacUILib_printf(" ");
         }
@@ -118,4 +125,5 @@ void CleanUp(void)
     //delete allocated heap memory
     delete myGM;
     delete myPlayer;
+    delete myFood;
 }
