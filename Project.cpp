@@ -60,15 +60,15 @@ void GetInput(void)
     myGM->collectAsyncInput();
     
     //debug key
-    if(myGM->getInput() == 'r') {
-        objPosArrayList* playerPosition = myPlayer->getPlayerPos();
-        myFood->generateFood(myGM, playerPosition);
+    // if(myGM->getInput() == 'r') {
+    //     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
+    //     myFood->generateFood(myGM, playerPosition);
 
-    MacUILib_printf("Food regenerated at new position\n");
+    //MacUILib_printf("Food regenerated at new position\n");
 
     myGM->clearInput();
 
-   } 
+   
 
 }
 

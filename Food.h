@@ -6,7 +6,6 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 #include "GameMechs.h"
-#include "Player.h"
 #include "MacUILib.h"
 
 using namespace std;

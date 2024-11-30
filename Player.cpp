@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "ObjPos.h"
 #include "MacUILib.h"
+#include "Food.h"
+#include "objPosArrayList.h"
 
 Player::Player(GameMechs* thisGMRef)
 {
@@ -135,17 +137,21 @@ void Player::movePlayer()
 
 
     //check if new temp objPos overlaps the food pos (get it from food class)
-    if(newHeadPos.pos->x == foodRef->getFoodPos. )
     // use isposequal() mmethod from objPos class
-    //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
-    //take respective actions to increase the score
-
-    //insert temp objPos to the head of the list
+    objPos foodPos = foodRef->getFoodPos();
+    if(newHeadPos.isPosEqual(&foodPos)) { 
+        //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
+        //take respective actions to increase the score
+        objPosArrayList* playerPosition = getPlayerPos();
+        foodRef->generateFood(mainGameMechsRef, playerPosition);
+    }
+    else { 
+        // If no overlap, remove tail, complete movement
+        playerPosList->removeTail();
+    }
+    //insert temp objPos to the head of the list in either case 
     playerPosList->insertHead(newHeadPos);
 
-
-    // If no overlap, remove tail, complete movement
-    playerPosList->removeTail();
 
 }
 
