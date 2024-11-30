@@ -90,33 +90,52 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();  
 
-objPos playerPos = myPlayer->getPlayerPos();
-objPos foodPos = myFood->getFoodPos(); //already defined in food class??
+    objPosArrayList* playerPos = myPlayer->getPlayerPos();
+    int playerSize = playerPos->getSize();
+    objPos foodPos = myFood->getFoodPos(); 
 
-int x = 0, y = 0;
-   for (y=0; y<=9;y++){
-    for(x=0;x<=19;x++){
-        if (y==0 || y==9|| x==0 || x==19){
-            MacUILib_printf("#");
+
+    int boardX = myGM->getBoardSizeX();
+    int boardY = myGM->getBoardSizeY();
+
+
+    for (int i = 0; i < boardY; i++){
+        for(int j = 0; j < boardX; j++){
+
+            //now iterate through playerPos array list to print all segments out 
+            for(int k = 0; k < playerSize; k++) { 
+                objPos thisSeg = playerPos->getElement(k);
+
+                //check if current segment x, y pos matches j, i coordinate 
+                
+                //if yes, print symbol 
+
+                //WATCH OUT - skip if-else block below if we have printed something 
+            }
+
+            //at end of for loop do something to determine whether to continue if-else or move onto next iteration of i-j
+
+
+            //draw border
+            if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
+                MacUILib_printf("%c", "#");
+            }
+            }
+            else if(j == foodPos.pos->x && i == foodPos.pos->i) { 
+                MacUILib_printf("%c",foodPos.symbol);
+            }
+            else{
+                MacUILib_printf("%c", ' ');
+            }
+            
         }
-        else if(x == playerPos.pos->x && y==playerPos.pos->y){
-            MacUILib_printf("%c",playerPos.symbol);
-        }
-        else if(x == foodPos.pos->x && y == foodPos.pos->y) { 
-            MacUILib_printf("%c",foodPos.symbol);
-        }
-        else{
-            MacUILib_printf(" ");
-        }
-        
-    }
-    MacUILib_printf("\n");
+        MacUILib_printf("\n");
    }
    
    MacUILib_printf("================DEBUGGING===============\n");
    MacUILib_printf("Player[x,y]= [%d,%d], %c\n", playerPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
    MacUILib_printf("current score: %d\n", myGM -> getScore());
-  MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
+   MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
 
 }
 
