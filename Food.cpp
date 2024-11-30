@@ -43,7 +43,7 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
                 break;
             }
         }
-    } while (flag = 0);
+    } while (flag == 0);
 
     
     foodPos.setObjPos(xFood, yFood,'o');

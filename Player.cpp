@@ -99,25 +99,25 @@ void Player::movePlayer()
     switch(myDir)
     {
         case UP:
-            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y--, '*');
+            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y-1, '*');
             if (newHeadPos.pos->y <= 0) {
                 newHeadPos.pos->y = mainGameMechsRef->getBoardSizeY() -2; // change to getter
             } 
             break;
         case RIGHT:
-            newHeadPos.setObjPos(currentHeadPos.pos->x++, currentHeadPos.pos->y, '*');
+            newHeadPos.setObjPos(currentHeadPos.pos->x + 1, currentHeadPos.pos->y, '*');
             if (newHeadPos.pos->x >= mainGameMechsRef->getBoardSizeX() -1){
                 newHeadPos.pos->x = 1;
             } 
             break;
         case DOWN:
-            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y++, '*');
+            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y + 1, '*');
             if (newHeadPos.pos->y >= mainGameMechsRef->getBoardSizeY() -1){
                 newHeadPos.pos->y = 1;
             } 
             break;
         case LEFT:
-            newHeadPos.setObjPos(currentHeadPos.pos->x--, currentHeadPos.pos->y, '*');
+            newHeadPos.setObjPos(currentHeadPos.pos->x -1, currentHeadPos.pos->y, '*');
             if (newHeadPos.pos->x <= 0){
                 newHeadPos.pos->x = mainGameMechsRef->getBoardSizeX() -2;
             } 
