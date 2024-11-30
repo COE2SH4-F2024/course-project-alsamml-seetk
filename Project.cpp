@@ -50,7 +50,7 @@ void Initialize(void)
     myPlayer = new Player(myGM);
     myFood = new Food();
 
-    objPos playerPosition{-100,-100, '^'};
+    objPos playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
 
 
@@ -58,7 +58,18 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   myGM->collectAsyncInput();
+    myGM->collectAsyncInput();
+    
+    //debug key
+    if(myGM->getInput() == 'r') {
+        objPos playerPosition = myPlayer->getPlayerPos();
+        myFood->generateFood(myGM, playerPosition);
+
+    MacUILib_printf("Food regenerated at new position\n");
+
+    myGM->clearInput();
+
+   } 
 
 }
 
