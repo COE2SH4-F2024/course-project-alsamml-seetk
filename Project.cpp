@@ -48,8 +48,8 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM = new GameMechs();
-    myPlayer = new Player(myGM);
     myFood = new Food();
+    myPlayer = new Player(myGM, myFood);
 
     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
