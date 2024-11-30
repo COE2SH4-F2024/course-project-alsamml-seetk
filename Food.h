@@ -1,8 +1,15 @@
 #ifndef FOOD_H
 #define FOOD_H
 
-
+#include <cstdlib>
+#include <time.h>
 #include "objPos.h"
+#include "objPosArrayList.h"
+#include "GameMechs.h"
+#include "Player.h"
+#include "MacUILib.h"
+
+using namespace std;
 
 class Food 
 { 
@@ -13,7 +20,7 @@ class Food
         Food();
         ~Food();
 
-        void generateFood(objPos blockOff);
+        void generateFood(GameMechs* gameMechsPtr, objPos blockOff);
         objPos getFoodPos() const;
 };
 

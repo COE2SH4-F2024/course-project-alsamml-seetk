@@ -50,6 +50,8 @@ void Initialize(void)
     myPlayer = new Player(myGM);
     myFood = new Food();
 
+    objPos playerPosition{-100,-100, '^'};
+    myFood->generateFood(myGM, playerPosition);
 
 
 }

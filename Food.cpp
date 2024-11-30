@@ -1,8 +1,9 @@
 #include "Food.h"
 #include "MacUILib.h"
 #include "GameMechs.h"
-#include "objPos.h"
-#include "Player.h"
+#include <iostream>
+
+using namespace std;
 
 
 Food::Food()
@@ -18,64 +19,77 @@ Food::~Food()
 }
 
 
-void Food::generateFood(objPos blockOff)
+void Food::generateFood(GameMechs* gameMechsPtr, objPos blockOff)
 {
     //random food generation algorithm
     //blockoff the player position only 
-    int count = ->getSize();
-    int randNum; 
-    int str_size = my_strlen(str);
+    srand(static_cast<unsigned int>(time(0)));
+
+    int boardWidth = gameMechsPtr->getBoardSizeX() - 2;
+    int boardHeight = gameMechsPtr->getBoardSizeY() - 2;
+    int xFood, yFood;
+
+    do { 
+        xFood = rand() % boardWidth + 1;
+        yFood = rand() % boardHeight + 1;
+    } while (xFood == blockOff.pos->x && yFood == blockOff.pos->y);
+
     
-    int* xRandList = (int*)calloc(xRange, sizeof(int));
-    int* yRandList = (int*)calloc(yRange, sizeof(int)); 
-    int* charRandList = (int*)calloc(str_size, sizeof(int));
-
-    xRandList[player->x]++;
-    yRandList[player->y]++;
-
-    //generate non-repeating random x coord
-    do
-    {
-        randNum = rand() % (xRange);
-
-        if(randNum == 0 || randNum == (xRange - 1))
-            continue;
-
-        xRandList[randNum]++;
-        count--;
-        list[count].x = randNum;
-    } while (count > 0);
-
-    //generate non-repeating random y coord
-    count = listSize; 
-    do 
-    {
-        randNum = rand() % (yRange);
-
-        if(randNum == 0 || randNum == (yRange - 1))
-            continue;
-
-        yRandList[randNum]++;
-        count--;
-        list[count].y = randNum;
-    } while(count > 0);
-
-    //generate non-repeating random character choices 
-    do
-    {
-        randNum = rand() % (str_size - 1);
-
-        if(charRandList[randNum] != 0)
-            continue;
-
-        charRandList[randNum]++;
-        count--;
-        list[count].symbol = str[randNum];
-    } while(count > 0);
+    foodPos.setObjPos(xFood, yFood,'o');
+    // int count = ->getSize();
+    // int randNum; 
+    // int str_size = my_strlen(str);
     
-    free(xRandList);
-    free(yRandList);
-    free(charRandList);
+    // int* xRandList = (int*)calloc(xRange, sizeof(int));
+    // int* yRandList = (int*)calloc(yRange, sizeof(int)); 
+    // int* charRandList = (int*)calloc(str_size, sizeof(int));
+
+    // xRandList[player->x]++;
+    // yRandList[player->y]++;
+
+    // //generate non-repeating random x coord
+    // do
+    // {
+    //     randNum = rand() % (xRange);
+
+    //     if(randNum == 0 || randNum == (xRange - 1))
+    //         continue;
+
+    //     xRandList[randNum]++;
+    //     count--;
+    //     list[count].x = randNum;
+    // } while (count > 0);
+
+    // //generate non-repeating random y coord
+    // count = listSize; 
+    // do 
+    // {
+    //     randNum = rand() % (yRange);
+
+    //     if(randNum == 0 || randNum == (yRange - 1))
+    //         continue;
+
+    //     yRandList[randNum]++;
+    //     count--;
+    //     list[count].y = randNum;
+    // } while(count > 0);
+
+    // //generate non-repeating random character choices 
+    // do
+    // {
+    //     randNum = rand() % (str_size - 1);
+
+    //     if(charRandList[randNum] != 0)
+    //         continue;
+
+    //     charRandList[randNum]++;
+    //     count--;
+    //     list[count].symbol = str[randNum];
+    // } while(count > 0);
+    
+    // free(xRandList);
+    // free(yRandList);
+    // free(charRandList);
     
 }
 
