@@ -1,16 +1,17 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "Player.h"
 #include "GameMechs.h"
+#include "Player.h"
+
 #include "Food.h"
 
 using namespace std;
 
 #define DELAY_CONST 100000
-
-Player* myPlayer; 
 GameMechs* myGM;
+Player* myPlayer; 
+
 Food* myFood;
 
 
@@ -52,6 +53,9 @@ void Initialize(void)
 
     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
+
+    objPos headPos (10, 5, '*');
+    playerPosition-> insertHead(headPos);
     
 
 }
@@ -121,24 +125,26 @@ void DrawScreen(void)
 
             //draw border
             if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
-                MacUILib_printf("%c", "#");
+                MacUILib_printf("#");
             }
             else if(j == foodPos.pos->x && i == foodPos.pos->y) { 
                 MacUILib_printf("%c",foodPos.symbol);
             }
             else{
-                MacUILib_printf("%c", ' ');
+                MacUILib_printf(" ");
             }
             
         }
         MacUILib_printf("\n");
    }
-   
+   objPos headPos = playerPos->getHeadElement();
    MacUILib_printf("================DEBUGGING===============\n");
    //MacUILib_printf("Player[x,y]= [%d,%d], %c\n", newHeadPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
    MacUILib_printf("current score: %d\n", myGM -> getScore());
    MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
-
+   MacUILib_printf("player head position: (%d, %d)\n", headPos.pos->x, headPos.pos->y);
+   //("Player Direction: %d\n", myPlayer->myDir());
+   MacUILib_printf("Game Board Size: (%d, %d)\n", myGM->getBoardSizeX(), myGM->getBoardSizeY());
 }
 
 void LoopDelay(void)

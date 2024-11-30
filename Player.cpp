@@ -1,16 +1,19 @@
 #include "Player.h"
 #include "ObjPos.h"
-
+#include "MacUILib.h"
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     playerPosList = new objPosArrayList();
     myDir = STOP;
+    int initialX = thisGMRef->getBoardSizeX() /2;
+    int initialY = thisGMRef->getBoardSizeY() /2;
+    objPos headPos(initialX,initialY, '*');
 
-    objPos headPos(thisGMRef->getBoardSizeX() / 2, thisGMRef->getBoardSizeY() /2, '*');
 
     playerPosList->insertHead(headPos);
+   
 
     // more actions to be included
     // playerPos.pos->x = thisGMRef->getBoardSizeX() / 2;
@@ -126,7 +129,8 @@ void Player::movePlayer()
         //player positions in initalize
             break;
         default:
-            return;
+           break;
+       
     }       
 
     //insert temp objPos to the head of the list
