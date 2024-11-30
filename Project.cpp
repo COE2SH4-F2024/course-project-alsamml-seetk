@@ -76,7 +76,6 @@ void GetInput(void)
 void RunLogic(void)
 {
     //myPlayer->mainGameMechsRef->setInput(input);
-    myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
     /*
     if(myPlayer->checkSelfCollision()) { 
