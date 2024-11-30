@@ -53,11 +53,6 @@ void Initialize(void)
 
     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
     myFood->generateFood(myGM, playerPosition);
-
-    objPos headPos (10, 5, '*');
-    playerPosition-> insertHead(headPos);
-    
-
 }
 
 void GetInput(void)

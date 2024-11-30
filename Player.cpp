@@ -7,8 +7,8 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     playerPosList = new objPosArrayList();
     myDir = STOP;
-    int initialX = thisGMRef->getBoardSizeX() /2;
-    int initialY = thisGMRef->getBoardSizeY() /2;
+    int initialX = mainGameMechsRef->getBoardSizeX() /2;
+    int initialY = mainGameMechsRef->getBoardSizeY() /2;
     objPos headPos(initialX,initialY, '*');
 
 
@@ -96,7 +96,7 @@ void Player::movePlayer()
     objPos currentHeadPos = playerPosList->getHeadElement();
 
     //create temp objPos to calculate new head pos
-    objPos newHeadPos; 
+    objPos newHeadPos = currentHeadPos; 
 
     // PPA3 Finite State Machine logic
     switch(myDir)
@@ -133,13 +133,15 @@ void Player::movePlayer()
        
     }       
 
-    //insert temp objPos to the head of the list
-    playerPosList->insertHead(newHeadPos);
 
     //check if new temp objPos overlaps the food pos (get it from food class)
+    if(newHeadPos.pos->x == foodRef->getFoodPos. )
     // use isposequal() mmethod from objPos class
     //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
     //take respective actions to increase the score
+
+    //insert temp objPos to the head of the list
+    playerPosList->insertHead(newHeadPos);
 
 
     // If no overlap, remove tail, complete movement
