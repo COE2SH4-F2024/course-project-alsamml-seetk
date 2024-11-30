@@ -107,9 +107,11 @@ void DrawScreen(void)
                 objPos thisSeg = playerPos->getElement(k);
 
                 //check if current segment x, y pos matches j, i coordinate 
-                
-                //if yes, print symbol 
-
+                if( i == thisSeg.pos->y && j == thisSeg.pos->x){
+                    //if yes, print symbol 
+                    MacUILib_printf("%c",foodPos.symbol);
+                }
+            
                 //WATCH OUT - skip if-else block below if we have printed something 
             }
 
