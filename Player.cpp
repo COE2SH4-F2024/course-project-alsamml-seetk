@@ -4,9 +4,11 @@
 #include "Food.h"
 #include "objPosArrayList.h"
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
 {
     mainGameMechsRef = thisGMRef;
+    foodRef = thisFoodRef;
+
     playerPosList = new objPosArrayList();
     myDir = STOP;
     int initialX = mainGameMechsRef->getBoardSizeX() /2;
