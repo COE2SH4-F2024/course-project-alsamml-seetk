@@ -20,6 +20,33 @@ objPos::objPos(int xPos, int yPos, char sym)
 // [TODO] Implement the missing special member functions to meet the minimum four rule
 
 
+objPos::objPos(const objPos &p)
+{
+  
+ pos = new Pos; 
+ pos->x = p.pos->x;
+ pos->y = p.pos->y;
+ symbol = p.symbol;
+ 
+
+}
+objPos& objPos::operator=(const objPos &p)
+{
+    if (this!= &p){
+        pos->x = p.pos->x;
+        pos->y = p.pos->y;
+        symbol = p.symbol;
+
+    }
+    return *this;
+}
+
+objPos::~objPos()
+{
+    
+      delete pos;
+    
+}
 
 
 void objPos::setObjPos(objPos o)
