@@ -137,8 +137,7 @@ void Player::movePlayer()
        
     }  
          
-    playerPosList -> insertHead(newHeadPos);
-
+    
     //check if new temp objPos overlaps the food pos (get it from food class)
     // use isposequal() mmethod from objPos class
 
