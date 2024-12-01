@@ -146,8 +146,30 @@ void Player::movePlayer()
         mainGameMechsRef->setExitTrue();
     }
     else{
-        objPos foodPos = foodRef->getFoodPos();
-        if(newHeadPos.isPosEqual(&foodPos)) { 
+        objPosArrayList* foodBucket = foodRef->getFoodPos();
+        for(int i = 0; i< foodBucket->getSize();i++){
+            objPos currentFood = foodBucket->getElement(i);
+            if(newHeadPos.isPosEqual(&currentFood)){
+                if (currentFood.symbol == 'o'){
+                    objPosArrayList* playerPosition = getPlayerPos();
+            foodRef->generateFood(mainGameMechsRef, playerPosition);
+            mainGameMechsRef->incrementScore();
+            playerPosList->insertHead(newHeadPos);
+                }
+                else if(currentFood.symbol == '$'){
+                    for(int j = 0; j<10; j++){
+                        mainGameMechsRef->incrementScore();
+
+                    }
+                }
+                
+            }
+            else{
+                playerPosList->removeTail();
+            }
+        }
+        //objPos foodPos = foodRef->getFoodPos();
+       /* if(newHeadPos.isPosEqual(&foodPos)) { 
             //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
             //take respective actions to increase the score
             objPosArrayList* playerPosition = getPlayerPos();
@@ -159,11 +181,17 @@ void Player::movePlayer()
             playerPosList->removeTail();
         }
         //insert temp objPos to the head of the list in either case 
-        playerPosList->insertHead(newHeadPos); 
+        //->insertHead(newHeadPos); */
     }
     
 
 }
+/*for(int i = 0; i < blockOff->getSize(); i++) { 
+            objPos currentBlock = blockOff->getElement(i);
+            if(xFood == currentBlock.pos->x && yFood == currentBlock.pos->y) { 
+                flag = 1; //equal to snake position
+                break;
+            }*/
 
 // More methods to be added
 bool Player::checkSelfCollision(){ 
