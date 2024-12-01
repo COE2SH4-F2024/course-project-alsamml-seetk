@@ -136,7 +136,7 @@ void Player::movePlayer()
            break;
        
     }  
-    //     
+         
     playerPosList -> insertHead(newHeadPos);
 
     //check if new temp objPos overlaps the food pos (get it from food class)
