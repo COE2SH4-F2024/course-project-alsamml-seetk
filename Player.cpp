@@ -151,10 +151,10 @@ void Player::movePlayer()
             objPos currentFood = foodBucket->getElement(i);
             if(newHeadPos.isPosEqual(&currentFood)){
                 if (currentFood.symbol == 'o'){
-                    objPosArrayList* playerPosition = getPlayerPos();
-            foodRef->generateFood(mainGameMechsRef, playerPosition);
-            mainGameMechsRef->incrementScore();
-            playerPosList->insertHead(newHeadPos);
+                    //objPosArrayList* playerPosition = getPlayerPos();
+                    //foodRef->generateFood(mainGameMechsRef, playerPosition);
+                    mainGameMechsRef->incrementScore();
+                    playerPosList->insertHead(newHeadPos);
                 }
                 else if(currentFood.symbol == '$'){
                     for(int j = 0; j<10; j++){
