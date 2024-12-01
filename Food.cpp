@@ -1,7 +1,7 @@
 #include "Food.h"
-#include "MacUILib.h"
-#include "GameMechs.h"
-#include <iostream>
+#include <cstdlib>
+#include <time.h>
+#include "objPos.h"
 
 using namespace std;
 
@@ -10,12 +10,25 @@ Food::Food()
 {
     //init food object to be outside gameboard 
     // so that before it is randomly placed it will not appear at (0,0) 
-    foodPos.setObjPos(-10, -10, 'o');
+    //foodPos.setObjPos(-10, -10, 'o');
+    foodBucket = new objPosArrayList();
+
+    food1.setObjPos(-10,-10,'o');
+    food2.setObjPos(-20,-20,'o');
+    food3.setObjPos(-25,-25,'o');
+    food4.setObjPos(-30,-30,'o');
+    special.setObjPos(-25,-25,'$');
+
+    foodBucket->insertTail(food1);
+    foodBucket->insertTail(food2);
+    foodBucket->insertTail(food3);
+    foodBucket->insertTail(food4);
+    foodBucket->insertTail(special);
 }
 
 Food::~Food()
 {
-    
+    delete[] foodBucket; 
 }
 Food::Food(const Food &f){
     foodPos = f.foodPos;
@@ -29,7 +42,7 @@ Food& Food::operator=(const Food &f){
     }
     return *this;
 }
-void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
+void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff, objPosArrayList* foodBucket)
 {
     //random food generation algorithm
     //blockoff the player position only 
@@ -56,7 +69,12 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
     } while (flag == 0);
 
     
-    foodPos.setObjPos(xFood, yFood,'o');
+    //foodPos.setObjPos(xFood, yFood,'o');
+    food1.setObjPos(-10,-10,'o');
+    food2.setObjPos(-20,-20,'o');
+    food3.setObjPos(-25,-25,'o');
+    food4.setObjPos(-30,-30,'o');
+    special.setObjPos(-25,-25,'$');
     // int count = ->getSize();
     // int randNum; 
     // int str_size = my_strlen(str);
