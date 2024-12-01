@@ -150,12 +150,10 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen(); 
-    MacUILib_uninit();
-
-    //end game messages
+    //endgame messages
     myGM->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGM->getScore())) : (MacUILib_printf("Game Exited by Player\n"));
     
+    MacUILib_uninit();
     //delete allocated heap memory
     delete myGM;
     delete myPlayer;

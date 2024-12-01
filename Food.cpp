@@ -17,8 +17,18 @@ Food::~Food()
 {
     
 }
+Food::Food(const Food &f){
+    foodPos = f.foodPos;
+   
 
 
+}
+Food& Food::operator=(const Food &f){
+    if (this != &f){
+        foodPos = f.foodPos;
+    }
+    return *this;
+}
 void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
 {
     //random food generation algorithm

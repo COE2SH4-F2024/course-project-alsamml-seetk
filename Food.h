@@ -18,6 +18,8 @@ class Food
     public: 
         Food();
         ~Food();
+        Food(const Food &f);
+        Food& operator=(const Food &f);
 
         void generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff);
         objPos getFoodPos() const;
