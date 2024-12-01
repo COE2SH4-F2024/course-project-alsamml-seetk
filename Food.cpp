@@ -12,7 +12,7 @@ Food::Food()
     // so that before it is randomly placed it will not appear at (0,0) 
     //foodPos.setObjPos(-10, -10, 'o');
     foodBucket = new objPosArrayList();
-
+/*
     food1.setObjPos(-10,-10,'o');
     food2.setObjPos(-20,-20,'o');
     food3.setObjPos(-25,-25,'o');
@@ -23,7 +23,7 @@ Food::Food()
     foodBucket->insertTail(food2);
     foodBucket->insertTail(food3);
     foodBucket->insertTail(food4);
-    foodBucket->insertTail(special);
+    foodBucket->insertTail(special);*/
 }
 
 Food::~Food()
@@ -42,7 +42,7 @@ Food& Food::operator=(const Food &f){
     }
     return *this;
 }
-void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff, objPosArrayList* foodBucket)
+void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff, objPosArrayList* foodBucket, const int foodListSize)
 {
     //random food generation algorithm
     //blockoff the player position only 

@@ -52,7 +52,8 @@ void Initialize(void)
     myPlayer = new Player(myGM, myFood);
 
     objPosArrayList* playerPosition = myPlayer->getPlayerPos();
-    myFood->generateFood(myGM, playerPosition);
+    objPosArrayList* foodBucket = myFood->
+    myFood->generateFood(myGM, playerPosition, &myFood, 5);
 }
 
 void GetInput(void)
