@@ -135,8 +135,9 @@ void Player::movePlayer()
         default:
            break;
        
-    }       
-
+    }  
+    //     
+    playerPosList -> insertHead(newHeadPos);
 
     //check if new temp objPos overlaps the food pos (get it from food class)
     // use isposequal() mmethod from objPos class
@@ -150,9 +151,9 @@ void Player::movePlayer()
         for(int i = 0; i< foodBucket->getSize();i++){
             objPos currentFood = foodBucket->getElement(i);
             if(newHeadPos.isPosEqual(&currentFood)){
+                objPosArrayList* playerPosition = getPlayerPos();
+                foodRef->generateFood(mainGameMechsRef, playerPosition);
                 if (currentFood.symbol == 'o'){
-                    //objPosArrayList* playerPosition = getPlayerPos();
-                    //foodRef->generateFood(mainGameMechsRef, playerPosition);
                     mainGameMechsRef->incrementScore();
                     playerPosList->insertHead(newHeadPos);
                 }

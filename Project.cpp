@@ -99,7 +99,7 @@ void DrawScreen(void)
 
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
-
+    
 
     for (int i = 0; i < boardY; i++){
         for(int j = 0; j < boardX; j++){
@@ -128,9 +128,10 @@ void DrawScreen(void)
 
                 if ( i == thisFood.pos->y&& j == thisFood.pos->x){
                     MacUILib_printf("%c", thisFood.symbol);
+                    flag = 1;
                 }
             }
-
+            if (flag ==1) continue;
             //draw border
             if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
                 MacUILib_printf("#");
