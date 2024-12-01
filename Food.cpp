@@ -92,6 +92,7 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
 
             x_positions[counter] = xFood;
             y_positions[counter] = yFood;
+            counter++;
         }
     }
 
