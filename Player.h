@@ -25,6 +25,7 @@ class Player
         objPosArrayList* getPlayerPos() const;      
         void updatePlayerDir();
         void movePlayer();
+        bool checkSelfCollision();
 
         // More methods to be added here
 

@@ -140,21 +140,42 @@ void Player::movePlayer()
 
     //check if new temp objPos overlaps the food pos (get it from food class)
     // use isposequal() mmethod from objPos class
-    objPos foodPos = foodRef->getFoodPos();
-    if(newHeadPos.isPosEqual(&foodPos)) { 
-        //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
-        //take respective actions to increase the score
-        objPosArrayList* playerPosition = getPlayerPos();
-        foodRef->generateFood(mainGameMechsRef, playerPosition);
-    }
-    else { 
-        // If no overlap, remove tail, complete movement
-        playerPosList->removeTail();
-    }
-    //insert temp objPos to the head of the list in either case 
-    playerPosList->insertHead(newHeadPos);
 
+    if(checkSelfCollision()){
+        mainGameMechsRef->setLoseFlag();
+        mainGameMechsRef->setExitTrue();
+    }
+    else{
+        objPos foodPos = foodRef->getFoodPos();
+        if(newHeadPos.isPosEqual(&foodPos)) { 
+            //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
+            //take respective actions to increase the score
+            objPosArrayList* playerPosition = getPlayerPos();
+            foodRef->generateFood(mainGameMechsRef, playerPosition);
+            mainGameMechsRef->incrementScore();
+        }
+        else { 
+            // If no overlap, remove tail, complete movement
+            playerPosList->removeTail();
+        }
+        //insert temp objPos to the head of the list in either case 
+        playerPosList->insertHead(newHeadPos); 
+    }
+    
 
 }
 
 // More methods to be added
+bool Player::checkSelfCollision(){ 
+    objPosArrayList* playerPosition = getPlayerPos(); 
+    int listSize = playerPosList->getSize(); 
+    objPos currentHeadPos = playerPosList->getHeadElement(); 
+    
+    for( int i = 1; i< listSize; i++){
+        objPos currentPlayer = playerPosition->getElement(i);
+        if(currentHeadPos.pos->x == currentPlayer.pos->x && currentHeadPos.pos->y == currentPlayer.pos->y){
+            
+            return true;
+        }
+    } return false;
+}

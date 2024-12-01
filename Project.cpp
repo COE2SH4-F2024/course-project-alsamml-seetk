@@ -154,7 +154,7 @@ void CleanUp(void)
     MacUILib_uninit();
 
     //end game messages
-    myGM->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGM->getScore())) : (MacUILib_printf("Game Exited\n"));
+    myGM->getLoseFlagStatus() ? (MacUILib_printf("You Lost. Final Score: %d\n", myGM->getScore())) : (MacUILib_printf("Game Exited by Player\n"));
     
     //delete allocated heap memory
     delete myGM;
