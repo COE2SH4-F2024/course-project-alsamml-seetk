@@ -91,8 +91,10 @@ void DrawScreen(void)
     MacUILib_clearScreen();  
 
     objPosArrayList* playerPos = myPlayer->getPlayerPos();
+    objPosArrayList* foodBucket = myFood->getFoodPos();
     int playerSize = playerPos->getSize();
-    objPos foodPos = myFood->getFoodPos(); 
+    int foodBucketSize = foodBucket->getSize();
+    //objPos foodPos = myFood->getFoodPos(); 
 
 
     int boardX = myGM->getBoardSizeX();
@@ -114,18 +116,28 @@ void DrawScreen(void)
                     flag = 1;
                 } 
             }
+            
 
             //WATCH OUT - skip if-else block below if we have printed something
             //at end of for loop do something to determine whether to continue if-else or move onto next iteration of i-j
             if(flag == 1) continue; 
+           
+           
+            for( int f = 0; f<foodBucketSize;f++ ){
+                objPos thisFood = foodBucket->getElement(f);
+
+                if ( i == thisFood.pos->y&& j == thisFood.pos->x){
+                    MacUILib_printf("%c", thisFood.symbol);
+                }
+            }
 
             //draw border
             if (i == 0 || i == boardY - 1 || j == 0 || j == boardX -1){
                 MacUILib_printf("#");
             }
-            else if(j == foodPos.pos->x && i == foodPos.pos->y) { 
-                MacUILib_printf("%c",foodPos.symbol);
-            }
+            // else if(j == foodPos.pos->x && i == foodPos.pos->y) { 
+            //     MacUILib_printf("%c",foodPos.symbol);
+            // }
             else{
                 MacUILib_printf(" ");
             }
