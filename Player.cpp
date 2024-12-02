@@ -20,9 +20,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
    
 
     // more actions to be included
-    // playerPos.pos->x = thisGMRef->getBoardSizeX() / 2;
-    // playerPos.pos->y = thisGMRef->getBoardSizeY() /2;
-    // playerPos.symbol = '@'; //maybe change board size y and x later?
+    
 }
 
 
@@ -145,12 +143,16 @@ void Player::movePlayer()
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
     }
-    else{
+    
         objPosArrayList* foodBucket = foodRef->getFoodPos();
         for(int i = 0; i< foodBucket->getSize();i++){
             objPos currentFood = foodBucket->getElement(i);
             if(newHeadPos.isPosEqual(&currentFood)){
                 objPosArrayList* playerPosition = getPlayerPos();
+                
+                while (foodBucket->getSize() > 0){
+                    foodBucket->removeTail();
+                }
                 foodRef->generateFood(mainGameMechsRef, playerPosition);
                 if (currentFood.symbol == 'o'){
                     mainGameMechsRef->incrementScore();
@@ -162,12 +164,14 @@ void Player::movePlayer()
 
                     }
                 }
+                return;
                 
             }
-            else{
-                playerPosList->removeTail();
-            }
+            
+        
         }
+        playerPosList->insertHead(newHeadPos);
+                playerPosList->removeTail();
         //objPos foodPos = foodRef->getFoodPos();
        /* if(newHeadPos.isPosEqual(&foodPos)) { 
             //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
@@ -182,7 +186,6 @@ void Player::movePlayer()
         }
         //insert temp objPos to the head of the list in either case 
         //->insertHead(newHeadPos); */
-    }
     
 
 }
