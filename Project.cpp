@@ -89,6 +89,7 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();  
+   
 
     objPosArrayList* playerPos = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodPos();
@@ -146,14 +147,22 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
    }
-   objPos headPos = playerPos->getHeadElement();
-   MacUILib_printf("================DEBUGGING===============\n");
+   MacUILib_printf("Current score: %d\n", myGM -> getScore());
+   MacUILib_printf("Current Snake Length: %d\n", playerSize);
+   
+    MacUILib_printf("\n\nWelcome to the Snake Game! \n");
+    MacUILib_printf("Consuming the 'o' increments your score by 1. Consuming the '$' increments your score by 10 without increasing snake length\n");
+    MacUILib_printf("Press the esc button to exit the game\n");
+  // objPos headPos = playerPos->getHeadElement();
+  // MacUILib_printf("================DEBUGGING===============\n");
    //MacUILib_printf("Player[x,y]= [%d,%d], %c\n", newHeadPos.pos->x, playerPos.pos->y, playerPos.symbol ); 
-   MacUILib_printf("current score: %d\n", myGM -> getScore());
-   MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
-   MacUILib_printf("player head position: (%d, %d)\n", headPos.pos->x, headPos.pos->y);
+  
+   
+   //MacUILib_printf("lose flg: %d ", myGM -> getLoseFlagStatus());
+   //MacUILib_printf("player head position: (%d, %d)\n", headPos.pos->x, headPos.pos->y);
    //("Player Direction: %d\n", myPlayer->myDir());
-   MacUILib_printf("Game Board Size: (%d, %d)\n", myGM->getBoardSizeX(), myGM->getBoardSizeY());
+   //MacUILib_printf("Game Board Size: (%d, %d)\n", myGM->getBoardSizeX(), myGM->getBoardSizeY());
+   
 }
 
 void LoopDelay(void)

@@ -26,6 +26,8 @@ class Player
         void updatePlayerDir();
         void movePlayer();
         bool checkSelfCollision();
+        int checkFoodConsumption(objPos newHeadPos);
+       void increasePlayerLength(objPos newHeadPos);
 
         // More methods to be added here
 
@@ -38,5 +40,6 @@ class Player
         GameMechs* mainGameMechsRef;
         Food* foodRef;
 };
+
 
 #endif

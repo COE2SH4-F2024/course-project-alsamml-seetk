@@ -142,8 +142,28 @@ void Player::movePlayer()
     if(checkSelfCollision()){
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
-    }
     
+    }
+    int foodConsumptionResult = checkFoodConsumption(newHeadPos);
+    if(foodConsumptionResult ==0){
+        mainGameMechsRef->incrementScore();
+        //increasePlayerLength();
+        increasePlayerLength( newHeadPos);
+
+    }
+    else if(foodConsumptionResult == 1){
+        for(int j = 0; j<10; j++){
+             mainGameMechsRef->incrementScore();
+
+         }
+
+    }
+    else if(foodConsumptionResult==2){
+       // increasePlayerLength();
+        playerPosList->removeTail();
+        playerPosList->insertHead(newHeadPos);
+    }
+    /*
         objPosArrayList* foodBucket = foodRef->getFoodPos();
         for(int i = 0; i< foodBucket->getSize();i++){
             objPos currentFood = foodBucket->getElement(i);
@@ -172,6 +192,42 @@ void Player::movePlayer()
         }
         playerPosList->insertHead(newHeadPos);
                 playerPosList->removeTail();
+
+        
+            //true
+            //if statements for symbols 
+            //do action
+        objPosArrayList* foodBucket = foodRef->getFoodPos();
+        for(int i = 0; i< foodBucket->getSize();i++){
+            objPos currentFood = foodBucket->getElement(i);
+            
+            if(checkFoodConsumption()){
+
+                objPosArrayList* playerPosition = getPlayerPos();
+                while (foodBucket->getSize() > 0){
+                    foodBucket->removeTail();
+                }
+                foodRef->generateFood(mainGameMechsRef, playerPosition);
+    
+                if (currentFood.symbol == 'o'){
+                    mainGameMechsRef->incrementScore();
+                    playerPosList->insertHead(newHeadPos);
+                }
+                else if(currentFood.symbol == '$'){
+                    for(int j = 0; j<10; j++){
+                        mainGameMechsRef->incrementScore();
+                    }
+                }
+                return;
+        }
+        
+                
+                
+        }
+            //false
+            playerPosList->insertHead(newHeadPos);
+            playerPosList->removeTail();*/
+        
         //objPos foodPos = foodRef->getFoodPos();
        /* if(newHeadPos.isPosEqual(&foodPos)) { 
             //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
@@ -210,3 +266,45 @@ bool Player::checkSelfCollision(){
         }
     } return false;
 }
+
+int Player::checkFoodConsumption(objPos newHeadPos){
+    /*
+    objPosArrayList* foodBucket = foodRef->getFoodPos();
+        for(int i = 0; i< foodBucket->getSize();i++){
+            objPos currentFood = foodBucket->getElement(i);
+            if(newHeadPos.isPosEqual(&currentFood)){
+                return true;
+            }
+            
+}return false;*/
+//objPos newHeadPos = playerPosList->getHeadElement();
+objPosArrayList* foodBucket = foodRef->getFoodPos();
+        for(int i = 0; i< foodBucket->getSize();i++){
+            objPos currentFood = foodBucket->getElement(i);
+            if(newHeadPos.isPosEqual(&currentFood)){
+                objPosArrayList* playerPosition = getPlayerPos();
+                
+                while (foodBucket->getSize() > 0){
+                    foodBucket->removeTail();
+                }
+                foodRef->generateFood(mainGameMechsRef, playerPosition);
+                if (currentFood.symbol == 'o'){
+                    return 0;
+                }
+                else if(currentFood.symbol == '$'){
+                  return 1;
+                }
+                
+                
+            }
+            
+        
+        }return 2;
+
+       
+}
+
+void Player::increasePlayerLength(objPos newHeadPos){
+    playerPosList->insertHead(newHeadPos);
+    
+} 
