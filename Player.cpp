@@ -144,18 +144,21 @@ void Player::movePlayer()
         mainGameMechsRef->setExitTrue();
     
     }
+
+    objPosArrayList* playerPosition = getPlayerPos();
     int foodConsumptionResult = checkFoodConsumption(newHeadPos);
     if(foodConsumptionResult ==0){
         mainGameMechsRef->incrementScore();
         //increasePlayerLength();
         increasePlayerLength( newHeadPos);
+        foodRef->generateFood(mainGameMechsRef, playerPosition);
 
     }
     else if(foodConsumptionResult == 1){
         for(int j = 0; j<10; j++){
              mainGameMechsRef->incrementScore();
-
          }
+         foodRef->generateFood(mainGameMechsRef, playerPosition);
 
     }
     else if(foodConsumptionResult==2){
@@ -281,24 +284,23 @@ int Player::checkFoodConsumption(objPos newHeadPos){
 objPosArrayList* foodBucket = foodRef->getFoodPos();
         for(int i = 0; i< foodBucket->getSize();i++){
             objPos currentFood = foodBucket->getElement(i);
-            if(newHeadPos.isPosEqual(&currentFood)){
-                objPosArrayList* playerPosition = getPlayerPos();
+            char foodSymbol = currentFood.getSymbolIfPosEqual(&newHeadPos);
+
+            //if(newHeadPos.isPosEqual(&currentFood)){
                 
-                while (foodBucket->getSize() > 0){
-                    foodBucket->removeTail();
-                }
-                foodRef->generateFood(mainGameMechsRef, playerPosition);
-                if (currentFood.symbol == 'o'){
+                
+                // while (foodBucket->getSize() > 0){
+                //     foodBucket->removeTail();
+                // }
+
+                if (foodSymbol == 'o'){
+                    while (foodBucket->getSize() > 0) foodBucket->removeTail();
                     return 0;
                 }
-                else if(currentFood.symbol == '$'){
-                  return 1;
+                else if(foodSymbol == '$'){
+                    while (foodBucket->getSize() > 0) foodBucket->removeTail();
+                    return 1;
                 }
-                
-                
-            }
-            
-        
         }return 2;
 
        

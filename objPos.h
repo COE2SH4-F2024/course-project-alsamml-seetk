@@ -1,7 +1,6 @@
 #ifndef OBJPOS_H
 #define OBJPOS_H
 
-// Not really a C++ thing
 typedef struct 
 {
     int x;
@@ -17,13 +16,11 @@ class objPos
         objPos();
         objPos(int xPos, int yPos, char sym);
         
-        // Respect the rule of six / minimum four
-        // [TODO] Implement the missing special member functions to meet the minimum four rule
+        // Additional special member functions for the rule of min four 
         ~objPos();
         objPos(const objPos &p);
         objPos& operator=(const objPos &p);
 
-        
         void setObjPos(objPos o);        
         void setObjPos(int xPos, int yPos, char sym);  
 

@@ -8,15 +8,8 @@
 
 class Player
 {
-    // Construct the remaining declaration from the project manual.
-
-    // Only some sample members are included here
-
-    // You will include more data members and member functions to complete your design.
-
-    
     public:
-        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
+        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // direction state
 
         Player(GameMechs* thisGMRef, Food* thisfoodRef);
         ~Player();
@@ -27,9 +20,7 @@ class Player
         void movePlayer();
         bool checkSelfCollision();
         int checkFoodConsumption(objPos newHeadPos);
-       void increasePlayerLength(objPos newHeadPos);
-
-        // More methods to be added here
+        void increasePlayerLength(objPos newHeadPos);
 
     private:
         //objPos playerPos; // Upgrade this in iteration 3.  
