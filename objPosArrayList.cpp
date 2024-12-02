@@ -12,7 +12,7 @@ objPosArrayList::~objPosArrayList()
 {
    delete[] aList;
 }
-
+//rule of min 4
 objPosArrayList::objPosArrayList(const objPosArrayList &l)
 {
     arrayCapacity = l.arrayCapacity;

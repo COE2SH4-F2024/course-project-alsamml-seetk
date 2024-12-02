@@ -13,6 +13,7 @@ class objPosArrayList
         int arrayCapacity;
 
     public:
+        //rule of min 4
         objPosArrayList();
         ~objPosArrayList();
         objPosArrayList(const objPosArrayList &l);

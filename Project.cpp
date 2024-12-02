@@ -41,6 +41,8 @@ int main(void)
 
 }
 
+
+
 void Initialize(void)
 {
     MacUILib_init();
@@ -83,8 +85,8 @@ void DrawScreen(void)
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
     
-    //iterating through board dimension
-    for (int i = 0; i < boardY; i++){
+    //iterating through board dimension, i represents y, j represents x
+    for (int i = 0; i < boardY; i++){ 
         for(int j = 0; j < boardX; j++){
             int flag = 0; 
 

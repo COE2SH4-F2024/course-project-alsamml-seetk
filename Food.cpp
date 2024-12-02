@@ -38,7 +38,7 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
     while(counter < 5){
         flag = 0; //reset flag to 0 for each iteration 
         xFood = rand() % boardWidth + 1; //x position generated between [1,18]
-        yFood = rand() % boardHeight + 1; //y position generate between [1,8]
+        yFood = rand() % boardHeight + 1; //y position generated between [1,8]
 
         //iterating through the snake length (blockOff)
         for(int i = 0; i < blockOff->getSize(); i++) { 
@@ -58,7 +58,7 @@ void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
             //store into list for x,y positions 
             x_positions[counter] = xFood;
             y_positions[counter] = yFood;
-            counter++; //move onto next index 
+            counter++; //move onto generating next new position
         }
     }
 

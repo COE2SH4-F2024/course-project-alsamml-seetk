@@ -117,11 +117,12 @@ void Player::movePlayer()
     }
 
 
-    //performing actions based on food consumption 
+    //performing actions based on food consumption (code segment lines 122 - 150)
+
     objPosArrayList* playerPosition = getPlayerPos();
     int foodConsumptionResult = checkFoodConsumption(newHeadPos); 
 
-    // snake has consumed an 'o'
+    // if snake has consumed an 'o':
     if(foodConsumptionResult == 0){
         //increment score and increase snake length
         mainGameMechsRef->incrementScore();
@@ -130,7 +131,7 @@ void Player::movePlayer()
         foodRef->generateFood(mainGameMechsRef, playerPosition); // generate new random set of food item positions after collision
     }
 
-    // snake has consumed a '$'
+    // if snake has consumed a '$':
     else if(foodConsumptionResult == 1){
         //increase score by 10 points 
         for(int j = 0; j<10; j++){
@@ -171,11 +172,11 @@ int Player::checkFoodConsumption(objPos newHeadPos){
 
         //symbol processing 
         if (foodSymbol == 'o'){
-            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket before new food generation 
+            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket for new food generation 
             return 0;
         }
         else if(foodSymbol == '$'){
-            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket before new food generation 
+            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket for new food generation 
             return 1;
         }
     } return 2; // no collision 
