@@ -3,173 +3,79 @@
 #include <time.h>
 #include "objPos.h"
 
-using namespace std;
-
 
 Food::Food()
 {
-    //init food object to be outside gameboard 
-    // so that before it is randomly placed it will not appear at (0,0) 
-    //foodPos.setObjPos(-10, -10, 'o');
-    foodBucket = new objPosArrayList();
-/*
-    food1.setObjPos(-10,-10,'o');
-    food2.setObjPos(-20,-20,'o');
-    food3.setObjPos(-25,-25,'o');
-    food4.setObjPos(-30,-30,'o');
-    special.setObjPos(-25,-25,'$');
-
-    foodBucket->insertTail(food1);
-    foodBucket->insertTail(food2);
-    foodBucket->insertTail(food3);
-    foodBucket->insertTail(food4);
-    foodBucket->insertTail(special);*/
+    foodBucket = new objPosArrayList(); //initializing food bucket list on heap 
 }
 
 Food::~Food()
 {
-    delete foodBucket; 
+    delete foodBucket;
 }
-Food::Food(const Food &f){
 
-   
-
-
-}
-Food& Food::operator=(const Food &f){
-}
 void Food::generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff)
 {
-    //random food generation algorithm
-    //blockoff the player position only 
-    srand(static_cast<unsigned int>(time(0)));
+    srand(time(NULL)); // seed random integer generation with the current time  
 
-    int boardWidth = gameMechsPtr->getBoardSizeX() - 2;
-    int boardHeight = gameMechsPtr->getBoardSizeY() - 2;
-    int xFood, yFood;
+    //retrieving board dimensions from game mechs 
+    int boardWidth = gameMechsPtr->getBoardSizeX() - 2; //  board width excludes the border 
+    int boardHeight = gameMechsPtr->getBoardSizeY() - 2; // board height excludes the border 
+
+    int xFood, yFood; // to store randomly generated x,y positions
     int flag = 0;
+    int counter = 0; 
+
+    //initializing bit vector arrays to 0 to generate non repeating food positions
     int x_bitvector[boardWidth + 1] = {0};
     int y_bitvector[boardHeight + 1] = {0};
-    int x_positions[5] = {0}; //for storing random x positions 
-    int y_positions[5] = {0}; // for storing random y positions
+    //initializing arrays for storing x and y positions 
+    int x_positions[5] = {0}; 
+    int y_positions[5] = {0}; 
 
-    int counter = 0; 
-/*
-    do { 
-        flag = 1;
-        xFood = rand() % boardWidth + 1;
-        yFood = rand() % boardHeight + 1;
 
-        //check if generated pos matches any blocked positions 
+    //generating 5 random food items 
+    while(counter < 5){
+        flag = 0; //reset flag to 0 for each iteration 
+        xFood = rand() % boardWidth + 1; //x position generated between [1,18]
+        yFood = rand() % boardHeight + 1; //y position generate between [1,8]
+
+        //iterating through the snake length (blockOff)
         for(int i = 0; i < blockOff->getSize(); i++) { 
             objPos currentBlock = blockOff->getElement(i);
             if(xFood == currentBlock.pos->x && yFood == currentBlock.pos->y) { 
-                flag = 0;
-                break;
-            }
-        }
-    } while (flag == 0);
-*/
-
-   
-
-    while(counter<5){
-        flag = 0;
-        xFood = rand() % boardWidth + 1;
-        yFood = rand() % boardHeight + 1;
-
-        for(int i = 0; i < blockOff->getSize(); i++) { 
-            objPos currentBlock = blockOff->getElement(i);
-            if(xFood == currentBlock.pos->x && yFood == currentBlock.pos->y) { 
-                flag = 1; //equal to snake position
+                flag = 1; //generated position is equal to snake position, must generate new position
                 break;
             }
         }
 
+        //if coordinate is unique:
         if(flag==0 && x_bitvector[xFood]== 0 && y_bitvector[yFood]==0){
-            x_bitvector[xFood] = 1;
+            //setting to 1 to prevent reuse of coordinate 
+            x_bitvector[xFood] = 1; 
             y_bitvector[yFood] = 1;
 
+            //store into list for x,y positions 
             x_positions[counter] = xFood;
             y_positions[counter] = yFood;
-            counter++;
+            counter++; //move onto next index 
         }
     }
 
-    
-    //foodPos.setObjPos(xFood, yFood,'o');
+    // using x,y coordinates from random food position list to set the food object parameters 
     food1.setObjPos(x_positions[0],y_positions[0],'o');
     food2.setObjPos(x_positions[1],y_positions[1],'o');
     food3.setObjPos(x_positions[2],y_positions[2],'o');
     food4.setObjPos(x_positions[3],y_positions[3],'o');
     special.setObjPos(x_positions[4],y_positions[4],'$');
 
+    // inserting food objects into the food bucket
     foodBucket->insertTail(food1);
     foodBucket->insertTail(food2);
     foodBucket->insertTail(food3);
     foodBucket->insertTail(food4);
     foodBucket->insertTail(special);
-
-    x_positions[5] = {0}; //for storing random x positions 
-    y_positions[5] = {0};
-
-    // int count = ->getSize();
-    // int randNum; 
-    // int str_size = my_strlen(str);
-    
-    // int* xRandList = (int*)calloc(xRange, sizeof(int));
-    // int* yRandList = (int*)calloc(yRange, sizeof(int)); 
-    // int* charRandList = (int*)calloc(str_size, sizeof(int));
-
-    // xRandList[player->x]++;
-    // yRandList[player->y]++;
-
-    // //generate non-repeating random x coord
-    // do
-    // {
-    //     randNum = rand() % (xRange);
-
-    //     if(randNum == 0 || randNum == (xRange - 1))
-    //         continue;
-
-    //     xRandList[randNum]++;
-    //     count--;
-    //     list[count].x = randNum;
-    // } while (count > 0);
-
-    // //generate non-repeating random y coord
-    // count = listSize; 
-    // do 
-    // {
-    //     randNum = rand() % (yRange);
-
-    //     if(randNum == 0 || randNum == (yRange - 1))
-    //         continue;
-
-    //     yRandList[randNum]++;
-    //     count--;
-    //     list[count].y = randNum;
-    // } while(count > 0);
-
-    // //generate non-repeating random character choices 
-    // do
-    // {
-    //     randNum = rand() % (str_size - 1);
-
-    //     if(charRandList[randNum] != 0)
-    //         continue;
-
-    //     charRandList[randNum]++;
-    //     count--;
-    //     list[count].symbol = str[randNum];
-    // } while(count > 0);
-    
-    // free(xRandList);
-    // free(yRandList);
-    // free(charRandList);
-    
 }
-
 
 objPosArrayList* Food::getFoodPos() const
 {

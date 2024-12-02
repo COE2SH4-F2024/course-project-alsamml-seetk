@@ -1,12 +1,5 @@
 #include "objPosArrayList.h"
-
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
 #include <iostream>
-
-// Check lecture contents on general purpose array list construction, 
-// and modify it to support objPos array list construction.
 
 objPosArrayList::objPosArrayList()
 {
@@ -19,7 +12,9 @@ objPosArrayList::~objPosArrayList()
 {
    delete[] aList;
 }
-objPosArrayList::objPosArrayList(const objPosArrayList &l){
+
+objPosArrayList::objPosArrayList(const objPosArrayList &l)
+{
     arrayCapacity = l.arrayCapacity;
     listSize = l.listSize;
     aList = new objPos[arrayCapacity];
@@ -27,15 +22,15 @@ objPosArrayList::objPosArrayList(const objPosArrayList &l){
         aList[i] = l.aList[i];
     }
 }
-objPosArrayList& objPosArrayList::operator=(const objPosArrayList &l){
-    if (this!= &l){
 
+objPosArrayList& objPosArrayList::operator=(const objPosArrayList &l)
+{
+    if (this!= &l){
         arrayCapacity = l.arrayCapacity;
         listSize = l.listSize;
         for(int i = 0; i<listSize; i++ ){
             aList[i] = l.aList[i];
         }
-
     }
     return *this;
 }
@@ -70,7 +65,6 @@ void objPosArrayList::removeHead()
     for(int i = 0; i < listSize -1; i++)
     aList[i] = aList[i+1];
     listSize--;
-    
 }
 
 void objPosArrayList::removeTail()
@@ -93,9 +87,5 @@ objPos objPosArrayList::getTailElement() const
 
 objPos objPosArrayList::getElement(int index) const
 {
-   /*if(index<0||index>listSize+1){
-        throw std::out_of_range("Index out of bounds");
-    }
-*/ 
     return aList[index];
 }

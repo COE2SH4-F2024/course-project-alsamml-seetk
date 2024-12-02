@@ -6,256 +6,148 @@
 
 Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
 {
+    //obtaining reference of game mechs and food classes
     mainGameMechsRef = thisGMRef;
     foodRef = thisFoodRef;
 
-    playerPosList = new objPosArrayList();
-    myDir = STOP;
+    playerPosList = new objPosArrayList(); // allocating new player in heap memory
+    myDir = STOP; // default game state (not moving)
+
+    //setting player's initial position at the center of the game board 
     int initialX = mainGameMechsRef->getBoardSizeX() /2;
     int initialY = mainGameMechsRef->getBoardSizeY() /2;
     objPos headPos(initialX,initialY, '*');
 
-
-    playerPosList->insertHead(headPos);
-   
-
-    // more actions to be included
-    
+    playerPosList->insertHead(headPos); //starts with player length of 1 
 }
-
 
 Player::~Player()
 {
-    // delete any heap members here
     delete playerPosList;
 }
 
 objPosArrayList* Player::getPlayerPos() const
 {
-    // return the reference to the playerPos arrray list
-    return playerPosList;
+    return playerPosList; // return the reference to the playerPos arrray list
 }
 
 void Player::updatePlayerDir()
 {
-        // PPA3 input processing logic 
-        
-        // PPA3 input processing logic  
-      
-        char input = mainGameMechsRef ->getInput();
-        switch(input)
-        {                      
-            case 27:  // exit
-                mainGameMechsRef->setExitTrue();
-                break;
+    char input = mainGameMechsRef->getInput();
 
-            // Add more key processing here
-            // Add more key processing here
-            // Add more key processing here
-            case 'w':
-                if (myDir == STOP || myDir == RIGHT || myDir ==LEFT){
-                    myDir = UP;
-                    
-                }
-                break;
-            case 'a':
-                if (myDir == STOP || myDir == UP || myDir ==DOWN){
-                    myDir = LEFT;
-                    
-                }
-                break;
-            case 's':
-                if (myDir == RIGHT || myDir == LEFT || myDir ==STOP){
-                    myDir = DOWN;
-                    
-                }
-                break;
-            case 'd':
-                if (myDir == STOP || myDir == DOWN || myDir ==UP){
-                    myDir = RIGHT;
-                    
-                }
-                break;
-            default:
-            //in initialize
-                break;
-        }
-        
-            
-        
-        
-    
-    
-         
+    //settig game state based on key press input 
+    switch(input)
+    {                      
+        case 27:  // exit case 
+            mainGameMechsRef->setExitTrue();
+            break;
+
+        case 'w':
+            if (myDir == STOP || myDir == RIGHT || myDir == LEFT){
+                myDir = UP;
+            }
+            break;
+        case 'a':
+            if (myDir == STOP || myDir == UP || myDir == DOWN){
+                myDir = LEFT; 
+            }
+            break;
+        case 's':
+            if (myDir == RIGHT || myDir == LEFT || myDir == STOP){
+                myDir = DOWN;
+            }
+            break;
+        case 'd':
+            if (myDir == STOP || myDir == DOWN || myDir == UP){
+                myDir = RIGHT; 
+            }
+            break;
+        default:
+            break;
+    }      
 }
 
 void Player::movePlayer()
 {
-    // PPA3 Finite State Machine logic
-    updatePlayerDir();
+    updatePlayerDir(); // to move in required direction 
 
-    //get head element of the player list 
-    objPos currentHeadPos = playerPosList->getHeadElement();
-
-    //create temp objPos to calculate new head pos
-    objPos newHeadPos = currentHeadPos; 
-
-    // PPA3 Finite State Machine logic
+    //get head element of the player list
+    objPos currentHeadPos = playerPosList->getHeadElement(); //temporary objPos used to calculate new head pos
+    objPos newHeadPos = currentHeadPos; //new head position starts off at the current head position before calculation
+    
+    // snake movement and wrapparound logic
     switch(myDir)
     {
         case UP:
-            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y-1, '*');
+            newHeadPos.pos->y = currentHeadPos.pos->y - 1;
             if (newHeadPos.pos->y <= 0) {
-                newHeadPos.pos->y = mainGameMechsRef->getBoardSizeY() -2; // change to getter
+                newHeadPos.pos->y = mainGameMechsRef->getBoardSizeY() - 2; 
             } 
             break;
         case RIGHT:
-            newHeadPos.setObjPos(currentHeadPos.pos->x + 1, currentHeadPos.pos->y, '*');
-            if (newHeadPos.pos->x >= mainGameMechsRef->getBoardSizeX() -1){
+            newHeadPos.pos->x = currentHeadPos.pos->x + 1;
+            if (newHeadPos.pos->x >= mainGameMechsRef->getBoardSizeX() - 1){
                 newHeadPos.pos->x = 1;
             } 
             break;
         case DOWN:
-            newHeadPos.setObjPos(currentHeadPos.pos->x, currentHeadPos.pos->y + 1, '*');
-            if (newHeadPos.pos->y >= mainGameMechsRef->getBoardSizeY() -1){
+            newHeadPos.pos->y = currentHeadPos.pos->y + 1;
+            if (newHeadPos.pos->y >= mainGameMechsRef->getBoardSizeY() - 1){
                 newHeadPos.pos->y = 1;
             } 
             break;
         case LEFT:
-            newHeadPos.setObjPos(currentHeadPos.pos->x -1, currentHeadPos.pos->y, '*');
+            newHeadPos.pos->x = currentHeadPos.pos->x - 1;
             if (newHeadPos.pos->x <= 0){
-                newHeadPos.pos->x = mainGameMechsRef->getBoardSizeX() -2;
+                newHeadPos.pos->x = mainGameMechsRef->getBoardSizeX() - 2;
             } 
             break;
         case STOP: 
-        //player positions in initalize
             break;
         default:
            break;
-       
     }  
          
     
-    //check if new temp objPos overlaps the food pos (get it from food class)
-    // use isposequal() mmethod from objPos class
-
+    //performing actions beased on snake self collision 
     if(checkSelfCollision()){
+        //if collision is detected, lose and exit game 
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
-    
     }
 
+
+    //performing actions based on food consumption 
     objPosArrayList* playerPosition = getPlayerPos();
-    int foodConsumptionResult = checkFoodConsumption(newHeadPos);
-    if(foodConsumptionResult ==0){
-        mainGameMechsRef->incrementScore();
-        //increasePlayerLength();
-        increasePlayerLength( newHeadPos);
-        foodRef->generateFood(mainGameMechsRef, playerPosition);
+    int foodConsumptionResult = checkFoodConsumption(newHeadPos); 
 
+    // snake has consumed an 'o'
+    if(foodConsumptionResult == 0){
+        //increment score and increase snake length
+        mainGameMechsRef->incrementScore();
+        increasePlayerLength( newHeadPos);
+
+        foodRef->generateFood(mainGameMechsRef, playerPosition); // generate new random set of food item positions after collision
     }
+
+    // snake has consumed a '$'
     else if(foodConsumptionResult == 1){
+        //increase score by 10 points 
         for(int j = 0; j<10; j++){
              mainGameMechsRef->incrementScore();
          }
-         foodRef->generateFood(mainGameMechsRef, playerPosition);
 
+         foodRef->generateFood(mainGameMechsRef, playerPosition); // generate new random set of food item positions after collision
     }
-    else if(foodConsumptionResult==2){
-       // increasePlayerLength();
+
+    //no collision with food 
+    else if(foodConsumptionResult == 2){
+        //regular snake movement 
         playerPosList->removeTail();
         playerPosList->insertHead(newHeadPos);
     }
-    /*
-        objPosArrayList* foodBucket = foodRef->getFoodPos();
-        for(int i = 0; i< foodBucket->getSize();i++){
-            objPos currentFood = foodBucket->getElement(i);
-            if(newHeadPos.isPosEqual(&currentFood)){
-                objPosArrayList* playerPosition = getPlayerPos();
-                
-                while (foodBucket->getSize() > 0){
-                    foodBucket->removeTail();
-                }
-                foodRef->generateFood(mainGameMechsRef, playerPosition);
-                if (currentFood.symbol == 'o'){
-                    mainGameMechsRef->incrementScore();
-                    playerPosList->insertHead(newHeadPos);
-                }
-                else if(currentFood.symbol == '$'){
-                    for(int j = 0; j<10; j++){
-                        mainGameMechsRef->incrementScore();
-
-                    }
-                }
-                return;
-                
-            }
-            
-        
-        }
-        playerPosList->insertHead(newHeadPos);
-                playerPosList->removeTail();
-
-        
-            //true
-            //if statements for symbols 
-            //do action
-        objPosArrayList* foodBucket = foodRef->getFoodPos();
-        for(int i = 0; i< foodBucket->getSize();i++){
-            objPos currentFood = foodBucket->getElement(i);
-            
-            if(checkFoodConsumption()){
-
-                objPosArrayList* playerPosition = getPlayerPos();
-                while (foodBucket->getSize() > 0){
-                    foodBucket->removeTail();
-                }
-                foodRef->generateFood(mainGameMechsRef, playerPosition);
-    
-                if (currentFood.symbol == 'o'){
-                    mainGameMechsRef->incrementScore();
-                    playerPosList->insertHead(newHeadPos);
-                }
-                else if(currentFood.symbol == '$'){
-                    for(int j = 0; j<10; j++){
-                        mainGameMechsRef->incrementScore();
-                    }
-                }
-                return;
-        }
-        
-                
-                
-        }
-            //false
-            playerPosList->insertHead(newHeadPos);
-            playerPosList->removeTail();*/
-        
-        //objPos foodPos = foodRef->getFoodPos();
-       /* if(newHeadPos.isPosEqual(&foodPos)) { 
-            //overlapped, food consumed, NO NOT REMOVE SNAKE TAIL
-            //take respective actions to increase the score
-            objPosArrayList* playerPosition = getPlayerPos();
-            foodRef->generateFood(mainGameMechsRef, playerPosition);
-            mainGameMechsRef->incrementScore();
-        }
-        else { 
-            // If no overlap, remove tail, complete movement
-            playerPosList->removeTail();
-        }
-        //insert temp objPos to the head of the list in either case 
-        //->insertHead(newHeadPos); */
-    
-
 }
-/*for(int i = 0; i < blockOff->getSize(); i++) { 
-            objPos currentBlock = blockOff->getElement(i);
-            if(xFood == currentBlock.pos->x && yFood == currentBlock.pos->y) { 
-                flag = 1; //equal to snake position
-                break;
-            }*/
 
-// More methods to be added
 bool Player::checkSelfCollision(){ 
     objPosArrayList* playerPosition = getPlayerPos(); 
     int listSize = playerPosList->getSize(); 
@@ -264,49 +156,31 @@ bool Player::checkSelfCollision(){
     for( int i = 1; i< listSize; i++){
         objPos currentPlayer = playerPosition->getElement(i);
         if(currentHeadPos.pos->x == currentPlayer.pos->x && currentHeadPos.pos->y == currentPlayer.pos->y){
-            
-            return true;
+            return true; //collision detected 
         }
-    } return false;
+    } return false; // no collision detected 
 }
 
 int Player::checkFoodConsumption(objPos newHeadPos){
-    /*
     objPosArrayList* foodBucket = foodRef->getFoodPos();
-        for(int i = 0; i< foodBucket->getSize();i++){
-            objPos currentFood = foodBucket->getElement(i);
-            if(newHeadPos.isPosEqual(&currentFood)){
-                return true;
-            }
-            
-}return false;*/
-//objPos newHeadPos = playerPosList->getHeadElement();
-objPosArrayList* foodBucket = foodRef->getFoodPos();
-        for(int i = 0; i< foodBucket->getSize();i++){
-            objPos currentFood = foodBucket->getElement(i);
-            char foodSymbol = currentFood.getSymbolIfPosEqual(&newHeadPos);
 
-            //if(newHeadPos.isPosEqual(&currentFood)){
-                
-                
-                // while (foodBucket->getSize() > 0){
-                //     foodBucket->removeTail();
-                // }
+    // iterating through food bucket to get each food object for comparison 
+    for(int i = 0; i< foodBucket->getSize();i++){
+        objPos currentFood = foodBucket->getElement(i);
+        char foodSymbol = currentFood.getSymbolIfPosEqual(&newHeadPos); // if food and head object are equal(collision), obtain symbol of current food for processing
 
-                if (foodSymbol == 'o'){
-                    while (foodBucket->getSize() > 0) foodBucket->removeTail();
-                    return 0;
-                }
-                else if(foodSymbol == '$'){
-                    while (foodBucket->getSize() > 0) foodBucket->removeTail();
-                    return 1;
-                }
-        }return 2;
-
-       
+        //symbol processing 
+        if (foodSymbol == 'o'){
+            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket before new food generation 
+            return 0;
+        }
+        else if(foodSymbol == '$'){
+            while (foodBucket->getSize() > 0) foodBucket->removeTail(); // empty food bucket before new food generation 
+            return 1;
+        }
+    } return 2; // no collision 
 }
 
 void Player::increasePlayerLength(objPos newHeadPos){
-    playerPosList->insertHead(newHeadPos);
-    
+    playerPosList->insertHead(newHeadPos); 
 } 

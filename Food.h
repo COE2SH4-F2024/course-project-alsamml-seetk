@@ -7,24 +7,21 @@
 #include "objPosArrayList.h"
 #include "GameMechs.h"
 
-using namespace std;
-
 class Food 
 { 
     private: 
-        //objPos foodPos;
+        //5 food objects within the food bucket list
         objPos food1;
         objPos food2;
         objPos food3;
         objPos food4;
         objPos special;
+
         objPosArrayList* foodBucket;
 
     public: 
         Food();
         ~Food();
-        Food(const Food &f);
-        Food& operator=(const Food &f);
 
         void generateFood(GameMechs* gameMechsPtr, objPosArrayList* blockOff);
         objPosArrayList* getFoodPos() const;

@@ -23,10 +23,9 @@ GameMechs::GameMechs(int boardX, int boardY)
     boardSizeY = boardY;
 }
 
-// do you need a destructor? no
 GameMechs::~GameMechs()
 {
-    
+    //no memory allocated on heap
 }
 
 bool GameMechs::getExitFlagStatus() const
@@ -45,30 +44,12 @@ void GameMechs::collectAsyncInput()
         input = MacUILib_getChar();
     }
 
-    //exit on escape key press
+    //exit game on escape key press
     if(input == 27) exitFlag = true;
-
 }
 
 char GameMechs::getInput() const
 {
-    // //get exit flag status 
-    // getExitFlagStatus();
-
-    // //get input from MacUILib
-    // if(MacUILib_hasChar()) { 
-    //     input = MacUILib_getChar();
-    // }
-
-    // //exit on escape key press
-    // if(input != '\0') { 
-    //     switch(input) { 
-    //         case 27: 
-    //             setExitTrue();
-    //             break;
-    //         default: break;
-    //     }
-    // }
     return input;
 }
 
@@ -92,7 +73,6 @@ int GameMechs::getBoardSizeY() const
     return boardSizeY;
 }
 
-
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
@@ -112,5 +92,3 @@ void GameMechs::clearInput()
 {
     input = 0;
 }
-
-// More methods should be added here
